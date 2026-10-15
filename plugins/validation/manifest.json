@@ -1,0 +1,16 @@
+{
+  "name": "validation",
+  "version": "1.0.0",
+  "description": "Declarative input validation: string length, regex pattern, enum whitelist, number range and cross-field custom rules",
+  "author": "vexify-dev",
+  "license": "MIT",
+  "category": "validation",
+  "tags": ["validation", "constraints", "schema", "input", "sanitize"],
+  "jsql": {
+    "minVersion": "6.0.0",
+    "maxVersion": null
+  },
+  "entry": "plugins/validation/index.js",
+  "files": ["plugins/validation/index.js", "plugins/validation/README.md"],
+  "dependencies": []
+}
