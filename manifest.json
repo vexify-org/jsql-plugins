@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "updatedAt": "2026-10-14T13:51:00.000Z",
+  "updatedAt": "2026-10-15T21:13:00.000Z",
   "plugins": [
     {
       "name": "logger",
@@ -20,6 +20,25 @@
       "downloads": 0,
       "createdAt": "2026-10-14T12:00:00.000Z",
       "updatedAt": "2026-10-14T12:00:00.000Z"
+    },
+    {
+      "name": "validation",
+      "version": "1.0.0",
+      "description": "Declarative input validation: string length, regex pattern, enum whitelist, number range and cross-field custom rules",
+      "author": "vexify-dev",
+      "license": "MIT",
+      "category": "validation",
+      "tags": ["validation", "constraints", "schema", "input", "sanitize"],
+      "jsql": {
+        "minVersion": "6.0.0",
+        "maxVersion": null
+      },
+      "entry": "plugins/validation/index.js",
+      "files": ["plugins/validation/index.js", "plugins/validation/README.md"],
+      "dependencies": [],
+      "downloads": 0,
+      "createdAt": "2026-10-15T21:11:00.000Z",
+      "updatedAt": "2026-10-15T21:11:00.000Z"
     }
   ]
 }
