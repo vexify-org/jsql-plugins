@@ -14,21 +14,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
       
       - name: Security check
         run: node scripts/security-check.js
       
       - name: Generate registry
         run: node scripts/generate-registry.js
-      
-      - name: Commit registry
-        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-        run: |
-          git config user.name "CI Bot"
-          git config user.email "bot@jsql.dev"
-          git add registry.json
-          git diff --exit-code --quiet || git commit -m "chore: update registry"
-          git push origin refs/heads/main
 
   auto-merge:
     needs: security-check
@@ -37,8 +30,40 @@ jobs:
     env:
       GH_REPO: ${{ github.repository }}
     steps:
-      - name: Auto merge PR
-        run: gh pr merge ${{ github.event.pull_request.number }} --squash --delete-branch
+      # 1. 先合并 PR
+      - name: Merge PR
+        run: |
+          gh pr merge ${{ github.event.pull_request.number }} --squash --delete-branch
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_REPO: ${{ github.repository }}
+
+      # 2. 等 merge 完成（需要 fetch latest）
+      - name: Wait for merge to complete
+        run: |
+          sleep 3
+          git fetch origin main --depth=1
+          git checkout main
+
+      # 3. 检查是否有新插件需要注册
+      - name: Update registry.json
+        run: |
+          git config user.name "CI Bot"
+          git config user.email "bot@jsql.dev"
+          
+          node scripts/generate-registry.js
+          
+          if git diff --exit-code --quiet registry.json; then
+            echo "No registry changes, skipping"
+          else
+            git add registry.json
+            git commit -m "chore: update registry"
+            git push origin main
+            echo "REGISTRY_UPDATED=true" >> "$GITHUB_ENV"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 4. 成功通知（可选）
+      - name: Notify success
+        if: env.REGISTRY_UPDATED == 'true'
+        run: echo "✅ Registry updated after PR merge"
