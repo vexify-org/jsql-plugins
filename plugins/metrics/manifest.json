@@ -1,0 +1,16 @@
+{
+  "name": "metrics",
+  "version": "1.0.0",
+  "description": "Query performance profiler: per-pattern latency aggregation, slow-query log, and a stats API. Read-only observation, zero engine behavior change, zero dependencies.",
+  "author": "vexify-dev",
+  "license": "MIT",
+  "category": "monitoring",
+  "tags": ["metrics", "profiling", "performance", "monitoring", "slow-query"],
+  "jsql": {
+    "minVersion": "6.0.0",
+    "maxVersion": null
+  },
+  "entry": "plugins/metrics/index.js",
+  "files": ["plugins/metrics/index.js", "plugins/metrics/README.md"],
+  "dependencies": []
+}
