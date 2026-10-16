@@ -46,13 +46,11 @@ jobs:
     env:
       GH_REPO: ${{ github.repository }}
     steps:
-      # 先 checkout main 分支
       - uses: actions/checkout@v6
         with:
           ref: main
           fetch-depth: 1
 
-      # 合并 PR
       - name: Merge PR
         run: |
           gh pr merge ${{ github.event.pull_request.number }} --squash --delete-branch
@@ -60,12 +58,12 @@ jobs:
           git reset --hard origin/main
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update registry after merge
         run: |
           git config user.name "CI Bot"
           git config user.email "bot@jsql.dev"
-          
           node scripts/generate-registry.js
-          
           if git diff --exit-code --quiet registry.json; then
             echo "No registry changes"
           else
