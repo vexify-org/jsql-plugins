@@ -22,6 +22,23 @@ jobs:
       
       - name: Generate registry
         run: node scripts/generate-registry.js
+      
+      # 只在 main push 时更新 registry
+      - name: Commit registry
+        if: github.event_name != 'pull_request'
+        run: |
+          git config user.name "CI Bot"
+          git config user.email "bot@jsql.dev"
+          if git diff --exit-code --quiet registry.json; then
+            echo "No registry changes"
+          else
+            git add registry.json
+            git commit -m "chore: update registry"
+            git push origin main
+            echo "Registry updated ✅"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   auto-merge:
     needs: security-check
@@ -30,25 +47,21 @@ jobs:
     env:
       GH_REPO: ${{ github.repository }}
     steps:
-      # 1. 先拉取 main，为 git 操作准备
       - name: Prepare repo
         run: |
           git fetch origin main --depth=1
           git checkout main
 
-      # 2. 合并 PR
       - name: Merge PR
         run: |
           gh pr merge ${{ github.event.pull_request.number }} --squash --delete-branch
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 3. 等 merge 完成
       - name: Wait for merge
         run: sleep 3
 
-      # 4. 更新 registry
-      - name: Update registry
+      - name: Update registry after merge
         run: |
           git config user.name "CI Bot"
           git config user.email "bot@jsql.dev"
