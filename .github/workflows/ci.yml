@@ -23,7 +23,6 @@ jobs:
       - name: Generate registry
         run: node scripts/generate-registry.js
       
-      # 只在 main push 时更新 registry
       - name: Commit registry
         if: github.event_name != 'pull_request'
         run: |
@@ -47,11 +46,13 @@ jobs:
     env:
       GH_REPO: ${{ github.repository }}
     steps:
-      - name: Prepare repo
-        run: |
-          git fetch origin main --depth=1
-          git checkout main
+      # 先 checkout main 分支
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 1
 
+      # 合并 PR
       - name: Merge PR
         run: |
           gh pr merge ${{ github.event.pull_request.number }} --squash --delete-branch
