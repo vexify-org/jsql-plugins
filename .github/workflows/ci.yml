@@ -21,7 +21,7 @@ jobs:
         run: node scripts/generate-registry.js
       
       - name: Commit registry
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         run: |
           git config user.name "CI Bot"
           git config user.email "bot@jsql.dev"
