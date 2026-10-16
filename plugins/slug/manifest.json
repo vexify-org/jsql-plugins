@@ -1,0 +1,16 @@
+{
+  "name": "slug",
+  "version": "1.0.0",
+  "description": "URL slug generator plugin for JSQL",
+  "author": "VBot",
+  "license": "MIT",
+  "category": "other",
+  "tags": ["slug", "url", "string"],
+  "jsql": {
+    "minVersion": "6.0.0",
+    "maxVersion": null
+  },
+  "entry": "plugins/slug/index.js",
+  "files": ["plugins/slug/index.js", "plugins/slug/manifest.json"],
+  "dependencies": []
+}
