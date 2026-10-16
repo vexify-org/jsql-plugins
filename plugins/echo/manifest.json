@@ -1,0 +1,20 @@
+{
+  "name": "echo",
+  "version": "1.0.0",
+  "description": "Echo plugin — returns input as output for testing PR Auto Review",
+  "author": "VBot",
+  "license": "MIT",
+  "category": "other",
+  "tags": ["testing", "echo", "devtools"],
+  "jsql": {
+    "minVersion": "6.0.0",
+    "maxVersion": null
+  },
+  "entry": "plugins/echo/index.js",
+  "files": [
+    "plugins/echo/index.js",
+    "plugins/echo/README.md",
+    "plugins/echo/manifest.json"
+  ],
+  "dependencies": []
+}
