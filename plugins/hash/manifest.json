@@ -1,0 +1,19 @@
+{
+  "name": "hash",
+  "version": "1.0.0",
+  "description": "Simple hash plugin for testing PR Auto Review",
+  "author": "VBot",
+  "license": "MIT",
+  "category": "other",
+  "tags": ["hash", "testing", "md5"],
+  "jsql": {
+    "minVersion": "6.0.0",
+    "maxVersion": null
+  },
+  "entry": "plugins/hash/index.js",
+  "files": [
+    "plugins/hash/index.js",
+    "plugins/hash/manifest.json"
+  ],
+  "dependencies": []
+}
