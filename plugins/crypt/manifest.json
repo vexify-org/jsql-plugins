@@ -1,0 +1,16 @@
+{
+  "name": "crypt",
+  "version": "1.0.0",
+  "description": "Transparent column encryption (AES-256-GCM): encrypt configured columns on write, decrypt on read, type-preserving, zero dependencies",
+  "author": "vexify-dev",
+  "license": "MIT",
+  "category": "security",
+  "tags": ["encryption", "security", "aes", "gcm", "privacy", "columns", "crypto"],
+  "jsql": {
+    "minVersion": "6.0.0",
+    "maxVersion": null
+  },
+  "entry": "plugins/crypt/index.js",
+  "files": ["plugins/crypt/index.js", "plugins/crypt/README.md"],
+  "dependencies": []
+}
