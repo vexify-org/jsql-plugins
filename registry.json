@@ -1,0 +1,78 @@
+{
+  "logger": {
+    "path": "plugins/logger/",
+    "name": "logger",
+    "version": "1.0.0",
+    "description": "Simple logging plugin for JSQL - logs all queries and results",
+    "author": "vexify",
+    "license": "MIT",
+    "category": "other",
+    "tags": [
+      "logging",
+      "debug",
+      "development"
+    ],
+    "jsql": {
+      "minVersion": "6.0.0",
+      "maxVersion": null
+    },
+    "entry": "plugins/logger/index.js",
+    "files": [
+      "plugins/logger/index.js",
+      "plugins/logger/README.md"
+    ],
+    "dependencies": []
+  },
+  "metrics": {
+    "path": "plugins/metrics/",
+    "name": "metrics",
+    "version": "1.0.0",
+    "description": "Query performance profiler: per-pattern latency aggregation, slow-query log, and a stats API. Read-only observation, zero engine behavior change, zero dependencies.",
+    "author": "vexify-dev",
+    "license": "MIT",
+    "category": "monitoring",
+    "tags": [
+      "metrics",
+      "profiling",
+      "performance",
+      "monitoring",
+      "slow-query"
+    ],
+    "jsql": {
+      "minVersion": "6.0.0",
+      "maxVersion": null
+    },
+    "entry": "plugins/metrics/index.js",
+    "files": [
+      "plugins/metrics/index.js",
+      "plugins/metrics/README.md"
+    ],
+    "dependencies": []
+  },
+  "validation": {
+    "path": "plugins/validation/",
+    "name": "validation",
+    "version": "1.0.0",
+    "description": "Declarative input validation: string length, regex pattern, enum whitelist, number range and cross-field custom rules",
+    "author": "vexify-dev",
+    "license": "MIT",
+    "category": "validation",
+    "tags": [
+      "validation",
+      "constraints",
+      "schema",
+      "input",
+      "sanitize"
+    ],
+    "jsql": {
+      "minVersion": "6.0.0",
+      "maxVersion": null
+    },
+    "entry": "plugins/validation/index.js",
+    "files": [
+      "plugins/validation/index.js",
+      "plugins/validation/README.md"
+    ],
+    "dependencies": []
+  }
+}
