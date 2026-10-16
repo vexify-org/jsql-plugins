@@ -21,9 +21,10 @@ jobs:
         run: node scripts/generate-registry.js
       
       - name: Commit registry
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           git config user.name "CI Bot"
           git config user.email "bot@jsql.dev"
           git add registry.json
           git diff --exit-code --quiet || git commit -m "chore: update registry"
-          git push
+          git push origin refs/heads/main
