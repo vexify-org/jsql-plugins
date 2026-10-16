@@ -30,22 +30,25 @@ jobs:
     env:
       GH_REPO: ${{ github.repository }}
     steps:
-      # 1. 先合并 PR
+      # 1. 先拉取 main，为 git 操作准备
+      - name: Prepare repo
+        run: |
+          git fetch origin main --depth=1
+          git checkout main
+
+      # 2. 合并 PR
       - name: Merge PR
         run: |
           gh pr merge ${{ github.event.pull_request.number }} --squash --delete-branch
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 2. 等 merge 完成（需要 fetch latest）
-      - name: Wait for merge to complete
-        run: |
-          sleep 3
-          git fetch origin main --depth=1
-          git checkout main
+      # 3. 等 merge 完成
+      - name: Wait for merge
+        run: sleep 3
 
-      # 3. 检查是否有新插件需要注册
-      - name: Update registry.json
+      # 4. 更新 registry
+      - name: Update registry
         run: |
           git config user.name "CI Bot"
           git config user.email "bot@jsql.dev"
@@ -53,17 +56,12 @@ jobs:
           node scripts/generate-registry.js
           
           if git diff --exit-code --quiet registry.json; then
-            echo "No registry changes, skipping"
+            echo "No registry changes"
           else
             git add registry.json
-            git commit -m "chore: update registry"
+            git commit -m "chore: update registry after PR merge"
             git push origin main
-            echo "REGISTRY_UPDATED=true" >> "$GITHUB_ENV"
+            echo "Registry updated ✅"
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # 4. 成功通知（可选）
-      - name: Notify success
-        if: env.REGISTRY_UPDATED == 'true'
-        run: echo "✅ Registry updated after PR merge"
