@@ -34,8 +34,11 @@ jobs:
     needs: security-check
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' && !github.event.pull_request.draft
+    env:
+      GH_REPO: ${{ github.repository }}
     steps:
       - name: Auto merge PR
         run: gh pr merge ${{ github.event.pull_request.number }} --squash --delete-branch
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
