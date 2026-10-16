@@ -56,13 +56,10 @@ jobs:
       - name: Merge PR
         run: |
           gh pr merge ${{ github.event.pull_request.number }} --squash --delete-branch
+          git fetch origin main --depth=1
+          git reset --hard origin/main
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Wait for merge
-        run: sleep 3
-
-      - name: Update registry after merge
         run: |
           git config user.name "CI Bot"
           git config user.email "bot@jsql.dev"
