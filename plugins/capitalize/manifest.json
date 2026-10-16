@@ -1,0 +1,13 @@
+{
+  "name": "capitalize",
+  "version": "1.0.0",
+  "description": "String capitalization plugin for JSQL",
+  "author": "VBot",
+  "license": "MIT",
+  "category": "other",
+  "tags": ["string", "capitalize"],
+  "jsql": {"minVersion": "6.0.0", "maxVersion": null},
+  "entry": "plugins/capitalize/index.js",
+  "files": ["plugins/capitalize/index.js", "plugins/capitalize/manifest.json"],
+  "dependencies": []
+}
