@@ -1,0 +1,109 @@
+name: PR Auto Review
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write  # 用于合并
+  pull-requests: write  # 用于评论 / 打标签
+  issues: write  # 用于创建通知 issue
+
+concurrency:
+  group: pr-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  security-review:
+    runs-on: ubuntu-latest
+    steps:
+      # 只拉主分支，跑受信任的脚本
+      - name: Checkout base branch (trusted)
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.base.ref }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '20'
+
+      - name: Get PR diff
+        id: diff
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr diff ${{ github.event.pull_request.number }} > /tmp/pr.diff
+          echo "diff_size=$(wc -c < /tmp/pr.diff)" >> "$GITHUB_OUTPUT"
+          echo "has_changes=$([ -s /tmp/pr.diff ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+
+      - name: Skip if no code changes
+        if: steps.diff.outputs.has_changes == 'false'
+        run: echo "No code changes in PR, skipping security scan"
+
+      - name: Security scan (PR diff)
+        if: steps.diff.outputs.has_changes == 'true'
+        id: scan
+        run: |
+          result=$(node scripts/security-scan.js --diff /tmp/pr.diff)
+          echo "$result" | tee /tmp/scan-result.json
+          verdict=$(echo "$result" | jq -r '.verdict')
+          reason=$(echo "$result" | jq -r '.reason')
+          echo "verdict=$verdict" >> "$GITHUB_OUTPUT"
+          echo "reason=$reason" >> "$GITHUB_OUTPUT"
+
+      # ✅ 安全 → 自动合并
+      - name: Auto-merge (safe)
+        if: steps.scan.outputs.verdict == 'safe'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} \
+            --body "✅ **自动审查通过**，正在合并此 PR。
+
+> VBot 安全扫描结果：代码安全，无危险操作。
+
+正在 squash 合并到 \`main\`..."
+          gh pr merge ${{ github.event.pull_request.number }} \
+            --squash --delete-branch --body "chore: auto-merge via PR Auto Review"
+
+      # ❌ 危险 → 评论 + 打标签 + 通知
+      - name: Block & notify (unsafe)
+        if: steps.scan.outputs.verdict == 'unsafe'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} \
+            --body "🚨 **安全审查未通过**，已阻止合并。
+
+> **原因**: ${{ steps.scan.outputs.reason }}
+
+请修复上述问题后重新提交。"
+
+          gh pr edit ${{ github.event.pull_request.number }} \
+            --add-label "security-review" \
+            --add-label "blocked"
+
+          # 创建通知 Issue
+          gh issue create \
+            --title "🚨 PR #${{ github.event.pull_request.number }} 安全审查未通过" \
+            --body "## 安全审查报告
+
+| 项目 | 内容 |
+|------|------|
+| **PR** | #${{ github.event.pull_request.number }} |
+| **标题** | ${{ github.event.pull_request.title }} |
+| **作者** | @${{ github.event.pull_request.user.login }} |
+| **分支** | \`${{ github.event.pull_request.head.ref }}\` → \`${{ github.event.pull_request.base.ref }}\` |
+| **原因** | ${{ steps.scan.outputs.reason }} |
+
+**PR 链接**: ${{ github.event.pull_request.html_url }}
+
+---
+*此 Issue 由 VBot 自动创建，请及时处理。*" \
+            --assignee "${{ github.repository_owner }}" \
+            --label "security" \
+            --label "auto-review"
+
+          echo "::warning::Security review failed: ${{ steps.scan.outputs.reason }}"
