@@ -1,0 +1,40 @@
+name: Sync registry
+
+on:
+  schedule:
+    # UTC 00:00, 06:00, 12:00, 18:00
+    - cron: '0 0,6,12,18 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-registry
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Security check
+        run: node scripts/security-check.js
+
+      - name: Sync registry JSON
+        run: node scripts/sync-registry.js
+
+      - name: Commit JSON
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "CI Bot"
+          git config user.email "bot@jsql.dev"
+          git add registry.json manifest.json
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "chore: sync registry JSON"
+            git push "https://x-access-token:${GITHUB_TOKEN}@github.com/vexify-org/jsql-plugins.git" HEAD:main
+          fi

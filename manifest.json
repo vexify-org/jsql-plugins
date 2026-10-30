@@ -1,6 +1,13 @@
 {
   "schemaVersion": "1.0",
-  "updatedAt": "2026-10-29T00:00:00.000Z",
+  "updatedAt": "2026-10-30T11:16:44.608Z",
+  "categories": [
+    "monitoring",
+    "other",
+    "query",
+    "security",
+    "validation"
+  ],
   "plugins": [
     {
       "name": "capitalize",
