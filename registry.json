@@ -225,5 +225,32 @@
       "plugins/xql/README.md"
     ],
     "dependencies": []
+  },
+  "soft-delete": {
+    "path": "plugins/soft-delete/",
+    "name": "soft-delete",
+    "version": "1.0.0",
+    "description": "Soft delete: mark rows instead of removing them, auto-hide on query, with restore/purge and an includeDeleted toggle",
+    "author": "vexify-dev",
+    "license": "MIT",
+    "category": "data",
+    "tags": [
+      "soft-delete",
+      "recycle",
+      "recovery",
+      "safety",
+      "audit"
+    ],
+    "jsql": {
+      "minVersion": "6.0.0",
+      "maxVersion": null
+    },
+    "entry": "plugins/soft-delete/index.js",
+    "files": [
+      "plugins/soft-delete/index.js",
+      "plugins/soft-delete/manifest.json",
+      "plugins/soft-delete/README.md"
+    ],
+    "dependencies": []
   }
 }
