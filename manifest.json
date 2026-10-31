@@ -1,7 +1,8 @@
 {
   "schemaVersion": "1.0",
-  "updatedAt": "2026-10-31T13:41:04.531Z",
+  "updatedAt": "2026-10-31T13:49:58.305Z",
   "categories": [
+    "data",
     "monitoring",
     "other",
     "query",
@@ -267,6 +268,35 @@
       "downloads": 0,
       "createdAt": "2026-10-31T13:41:04.531Z",
       "updatedAt": "2026-10-31T13:41:04.531Z"
+    },
+    {
+      "name": "soft-delete",
+      "version": "1.0.0",
+      "description": "Soft delete: mark rows instead of removing them, auto-hide on query, with restore/purge and an includeDeleted toggle",
+      "author": "vexify-dev",
+      "license": "MIT",
+      "category": "data",
+      "tags": [
+        "soft-delete",
+        "recycle",
+        "recovery",
+        "safety",
+        "audit"
+      ],
+      "jsql": {
+        "minVersion": "6.0.0",
+        "maxVersion": null
+      },
+      "entry": "plugins/soft-delete/index.js",
+      "files": [
+        "plugins/soft-delete/index.js",
+        "plugins/soft-delete/manifest.json",
+        "plugins/soft-delete/README.md"
+      ],
+      "dependencies": [],
+      "downloads": 0,
+      "createdAt": "2026-10-31T13:49:58.305Z",
+      "updatedAt": "2026-10-31T13:49:58.305Z"
     }
   ]
 }
