@@ -1,0 +1,10 @@
+{
+  "name": "uuid",
+  "version": "1.0.0",
+  "description": "Auto-fill a `uuid` (v4) column on every table; generated on insert, accessible via db.genUUID().",
+  "author": "vexify-dev",
+  "license": "MIT",
+  "jsql": "6.5.12",
+  "keywords": ["uuid", "id", "primary-key", "guid"],
+  "homepage": "https://github.com/vexify-org/jsql-plugins/tree/main/plugins/uuid"
+}
