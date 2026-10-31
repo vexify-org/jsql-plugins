@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "updatedAt": "2026-10-30T11:16:44.608Z",
+  "updatedAt": "2026-10-31T13:41:04.531Z",
   "categories": [
     "monitoring",
     "other",
@@ -253,6 +253,20 @@
       "downloads": 0,
       "createdAt": "2026-10-29T00:00:00.000Z",
       "updatedAt": "2026-10-29T00:00:00.000Z"
+    },
+    {
+      "name": "uuid",
+      "version": "1.0.0",
+      "description": "Auto-fill a `uuid` (v4) column on every table; generated on insert, accessible via db.genUUID().",
+      "author": "vexify-dev",
+      "license": "MIT",
+      "tags": [],
+      "jsql": "6.5.12",
+      "files": [],
+      "dependencies": [],
+      "downloads": 0,
+      "createdAt": "2026-10-31T13:41:04.531Z",
+      "updatedAt": "2026-10-31T13:41:04.531Z"
     }
   ]
 }
