@@ -1,0 +1,25 @@
+{
+  "name": "mesh-sync",
+  "version": "1.0.0",
+  "description": "Mesh data sync plugin for JSQL — CDC mirror + snapshot/incremental + multi-node replicas + WAL/checkpoint",
+  "author": "root",
+  "license": "MIT",
+  "category": "data",
+  "tags": [
+    "mesh",
+    "sync",
+    "replication",
+    "cdc"
+  ],
+  "jsql": {
+    "minVersion": "6.0.0",
+    "maxVersion": null
+  },
+  "entry": "plugins/mesh-sync/index.js",
+  "files": [
+    "plugins/mesh-sync/index.js",
+    "plugins/mesh-sync/manifest.json",
+    "plugins/mesh-sync/README.md"
+  ],
+  "dependencies": []
+}

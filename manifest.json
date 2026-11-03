@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "updatedAt": "2026-10-31T13:49:58.305Z",
+  "updatedAt": "2026-11-03T10:41:28.512Z",
   "categories": [
     "data",
     "monitoring",
@@ -297,6 +297,34 @@
       "downloads": 0,
       "createdAt": "2026-10-31T13:49:58.305Z",
       "updatedAt": "2026-10-31T13:49:58.305Z"
+    },
+    {
+      "name": "mesh-sync",
+      "version": "1.0.0",
+      "description": "Mesh data sync plugin for JSQL — CDC mirror + snapshot/incremental + multi-node replicas + WAL/checkpoint",
+      "author": "VBot",
+      "license": "MIT",
+      "category": "data",
+      "tags": [
+        "mesh",
+        "sync",
+        "replication",
+        "cdc"
+      ],
+      "jsql": {
+        "minVersion": "6.0.0",
+        "maxVersion": null
+      },
+      "entry": "plugins/mesh-sync/index.js",
+      "files": [
+        "plugins/mesh-sync/index.js",
+        "plugins/mesh-sync/manifest.json",
+        "plugins/mesh-sync/README.md"
+      ],
+      "dependencies": [],
+      "downloads": 0,
+      "createdAt": "2026-11-03T10:41:28.512Z",
+      "updatedAt": "2026-11-03T10:41:28.512Z"
     }
   ]
 }
